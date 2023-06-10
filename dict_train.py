@@ -2,7 +2,7 @@ import numpy as np
 from rnd_smp_patch import rnd_smp_patch, patch_pruning
 from spams import trainDL
 import pickle
-
+import os
 # ========================================================================
 # Demo codes for dictionary training by joint sparse coding
 # 
@@ -17,29 +17,33 @@ import pickle
 # For any questions, send email to jyang29@uiuc.edu
 # =========================================================================
 
-dict_size   = 2048         # dictionary size
-lmbd        = 0.1          # sparsity regularization
-patch_size  = 3            # image patch size
-nSmp        = 100000       # number of patches to sample
-upscale     = 3            # upscaling factor
+if __name__ == "__main__": 
+    dict_size   = 2048         # dictionary size
+    lmbd        = 0.1          # sparsity regularization
+    patch_size  = 3            # image patch size
+    nSmp        = 100000       # number of patches to sample
+    upscale     = 3            # upscaling factor
 
-train_img_path = 'data/train_hr/'   # Set your training images dir
+    train_img_path = 'data/train_hr/'   # Set your training images dir
 
-# Randomly sample image patches
-Xh, Xl = rnd_smp_patch(train_img_path, patch_size, nSmp, upscale)
+    # Randomly sample image patches
+    Xh, Xl = rnd_smp_patch(train_img_path, patch_size, nSmp, upscale)
 
-# Prune patches with small variances
-Xh, Xl = patch_pruning(Xh, Xl)
-Xh = np.asfortranarray(Xh)
-Xl = np.asfortranarray(Xl)
+    # Prune patches with small variances
+    Xh, Xl = patch_pruning(Xh, Xl)
+    Xh = np.asfortranarray(Xh)
+    Xl = np.asfortranarray(Xl)
 
-# Dictionary learning
-Dh = trainDL(Xh, K=dict_size, lambda1=lmbd, iter=100)
-Dl = trainDL(Xl, K=dict_size, lambda1=lmbd, iter=100)
+    # Dictionary learning
+    Dh = trainDL(Xh, K=dict_size, lambda1=lmbd, iter=100)
+    Dl = trainDL(Xl, K=dict_size, lambda1=lmbd, iter=100)
+    if not os.path.isdir('data/dicts/'):
+        os.mkdir('data/dicts/')
+    
 
-# Saving dictionaries to files
-with open('data/dicts/'+ 'Dh_' + str(dict_size) + '_US' + str(upscale) + '_L' + str(lmbd) + '_PS' + str(patch_size) + '.pkl', 'wb') as f:
-    pickle.dump(Dh, f, pickle.HIGHEST_PROTOCOL)
+    # Saving dictionaries to files
+    with open('data/dicts/'+ 'Dh_' + str(dict_size) + '_US' + str(upscale) + '_L' + str(lmbd) + '_PS' + str(patch_size) + '.pkl', 'wb') as f:
+        pickle.dump(Dh, f, pickle.HIGHEST_PROTOCOL)
 
-with open('data/dicts/'+ 'Dl_' + str(dict_size) + '_US' + str(upscale) + '_L' + str(lmbd) + '_PS' + str(patch_size) + '.pkl', 'wb') as f:
-    pickle.dump(Dl, f, pickle.HIGHEST_PROTOCOL)
+    with open('data/dicts/'+ 'Dl_' + str(dict_size) + '_US' + str(upscale) + '_L' + str(lmbd) + '_PS' + str(patch_size) + '.pkl', 'wb') as f:
+        pickle.dump(Dl, f, pickle.HIGHEST_PROTOCOL)

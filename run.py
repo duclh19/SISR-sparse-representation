@@ -4,7 +4,7 @@ from os.path import isdir
 from skimage.io import imread, imsave
 from skimage.color import rgb2ycbcr, ycbcr2rgb
 from skimage.transform import resize
-from scipy.misc import imresize
+# from scipy.misc import imresize
 from tqdm import tqdm
 import pickle
 from utils import ScSR
@@ -58,20 +58,23 @@ maxIter = 100
 ###
 
 img_lr_file = listdir(img_lr_dir)
-
+if not isdir('data/results/'):
+    mkdir('data/results/')
 for i in tqdm(range(len(img_lr_file))):
     # Read test image
     img_name = img_lr_file[i]
     img_name_dir = list(img_name)
     img_name_dir = np.delete(np.delete(np.delete(np.delete(img_name_dir, -1), -1), -1), -1)
     img_name_dir = ''.join(img_name_dir)
+
+
     if isdir('data/results/' + dict_name + '_' + img_name_dir) == False:
         new_dir = mkdir('{}{}'.format('data/results/' + dict_name + '_', img_name_dir))
     img_lr = imread('{}{}'.format(img_lr_dir, img_name))
 
     # Read and save ground truth image
     img_hr = imread('{}{}'.format(img_hr_dir, img_name))
-    imsave('{}{}{}{}'.format('data/results/' + dict_name + '_', img_name_dir, '/', '3HR.png'), img_hr, quality=100)
+    imsave('{}{}{}{}'.format('data/results/' + dict_name + '_', img_name_dir, '/', '3HR.png'), img_hr)
     img_hr_y = rgb2ycbcr(img_hr)[:, :, 0]
 
     # Change color space
@@ -95,7 +98,7 @@ for i in tqdm(range(len(img_lr_file))):
     img_sr = ycbcr2rgb(img_sr)
 
     # Signal normalization
-    for channel in range(len(img_sr.shape[2])):
+    for channel in range((img_sr.shape[2])):
         img_sr[:, :, channel] = normalize_signal(img_sr, channel)
 
     # Maximum pixel intensity normalization
@@ -103,7 +106,7 @@ for i in tqdm(range(len(img_lr_file))):
 
     # Bicubic interpolation for reference
     img_bc = resize(img_lr_ori, (img_hr.shape[0], img_hr.shape[1]))
-    imsave('{}{}{}{}'.format('data/results/' + dict_name + '_', img_name_dir, '/', '1bicubic.png'), img_bc, quality=100)
+    imsave('{}{}{}{}'.format('data/results/' + dict_name + '_', img_name_dir, '/', '1bicubic.png'), img_bc)
     img_bc_y = rgb2ycbcr(img_bc)[:, :, 0]
 
     # Compute RMSE for the illuminance
@@ -114,4 +117,4 @@ for i in tqdm(range(len(img_lr_file))):
     np.savetxt('{}{}{}{}'.format('data/results/' + dict_name + '_', img_name_dir, '/', 'RMSE_bicubic.txt'), rmse_bc_hr)
     np.savetxt('{}{}{}{}'.format('data/results/' + dict_name + '_', img_name_dir, '/', 'RMSE_SR.txt'), rmse_sr_hr)
 
-    imsave('{}{}{}{}'.format('data/results/' + dict_name + '_', img_name_dir, '/', '2SR.png'), img_sr, quality=100)
+    imsave('{}{}{}{}'.format('data/results/' + dict_name + '_', img_name_dir, '/', '2SR.png'), img_sr)
