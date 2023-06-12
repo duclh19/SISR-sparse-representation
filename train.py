@@ -12,7 +12,7 @@ from tqdm import tqdm
 
 
 ## PARAMETERS SET UP
-dict_size = 512
+dict_size = 1024
 lmbd = 0.1
 patch_size = 3
 num_samples = 100000
@@ -21,7 +21,7 @@ prune_perc = 10 # percentage for prunning
 iter = 100
 train_img_path = './data/T91/'
 
-dict_path = './dict/'
+dict_path = './dicts/'
 if not os.path.isdir(dict_path): 
     os.mkdir(dict_path)
 
