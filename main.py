@@ -36,8 +36,10 @@ class args(object):
     val_flag = True
     
 para = args()
-# %%
-# load dictionary
+
+
+
+# Load dictionaries
 dict_name = str(para.dic_size) + '_US' + str(para.dic_upscale_factor) + '_L' + str(para.dic_lambda) + '_PS' + str(para.dic_patch_size)
 
 with open('dictionary/Dh_' + dict_name + '.pkl', 'rb') as f:
@@ -50,13 +52,16 @@ with open('dictionary/Dl_' + dict_name + '.pkl', 'rb') as f:
 # data = scio.loadmat(dataFile)
 # Dh = data['Dh']
 # Dl = data['Dl']
+
 # %%
 # super resolution img dir
 if not os.path.exists(para.sr_dir):
     os.makedirs(para.sr_dir)
-# %%
+
 img_lr_file = os.listdir(para.lr_dir)
-# %%
+
+
+
 for i in range(len(img_lr_file)):
     img_name = img_lr_file[i]
     img_lr = io.imread(f"{para.lr_dir}/{img_name}")
@@ -134,7 +139,7 @@ for i in range(len(img_lr_file)):
     # TODO :
     # Save images
     # Save scores
-    
+
     # plt.figure()
     # plt.subplot(1,2,1)
     # plt.imshow(img_bc)

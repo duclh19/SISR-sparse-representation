@@ -1,7 +1,7 @@
 
 import numpy as np
 # from utils import random_sample_patch, patch_pruning
-from rnd_smp_patch import rnd_smp_patch, patch_pruning
+from rnd_smp_patch import random_sample_patch, patch_pruning
 from spams import trainDL
 import pickle
 
@@ -15,7 +15,8 @@ class args(object):
     upscale = 2
     prune_per = 10
     iter = 100
-    train_img_path = './data/T91/'
+    train_img_path = './data/train_hr/' 
+    assert train_img_path.endswith('/'), 'Your trainig image path should be ended with / (backslash)'
 
 
 para = args()
