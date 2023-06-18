@@ -136,7 +136,7 @@ def patch_pruning(Xh, Xl, per=10):
     Xl = Xl[:, idx]
     return Xh, Xl
 
-def gauss2D(shape,sigma):
+def gauss2D(shape:int, sigma:float):
     """
     Gaussian filter with `shape` and `sigma`
 
@@ -149,7 +149,7 @@ def gauss2D(shape,sigma):
     -----
     `h`: 2-D array which is a Gaussian filter 
     """
-    m,n = [(ss-1.)/2. for ss in shape]
+    m,n = [(ss-1.)/2. for ss in (shape, shape)]
     y,x = np.ogrid[-m:m+1,-n:n+1]
     h = np.exp( -(x*x + y*y) / (2.*sigma*sigma) )
     h[ h < np.finfo(h.dtype).eps*h.max() ] = 0
