@@ -54,12 +54,11 @@ def sample_patches(img, patch_size, patch_num, upscale):
     lImG21 = convolve2d(lIm, hf2, 'same')
     lImG22 = convolve2d(lIm, vf2, 'same')
 
-    for i in tqdm(range(patch_num)):
+    for i in (range(patch_num)):
         row = xrow[i]
         col = ycol[i]
 
         Hpatch = np.ravel(hIm[row : row + patch_size, col : col + patch_size], order='F')
-        # Hpatch = np.reshape(Hpatch, (Hpatch.shape[0], 1))
         
         Lpatch1 = np.ravel(lImG11[row : row + patch_size, col : col + patch_size], order='F')
         Lpatch1 = np.reshape(Lpatch1, (Lpatch1.shape[0], 1))
@@ -95,7 +94,7 @@ def random_sample_patch(img_path, patch_size, num_patch, upsample):
     img_num = len(img_dir)
     nper_img = np.zeros((img_num, 1))
 
-    for i in tqdm(range(img_num)):
+    for i in (range(img_num)):
         img = io.imread('{}{}'.format(img_path, img_dir[i]))
         nper_img[i] = img.shape[0] * img.shape[1]
 
