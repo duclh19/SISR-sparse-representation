@@ -26,3 +26,13 @@ result/
 
 > The dataset can be download [here](https://drive.google.com/drive/folders/15PHLMjOuhZdffTkHqqyzWr4UNbDx8axf?usp=sharing)
 
+
+[`train.py`](train.py): use to train dictionaries
+
+[`main.py`](main.py)  : re-experiment on validation set. 
+
+[`inference.py`](inference.py): test your own image. 
+
+[`utils.py`](utils.py) and [`patches_proc.py`](patches_proc.py): for utils
+
+`proc.py`: pre-preprocessing to generate low-res images (not in use anymore)
