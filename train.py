@@ -4,11 +4,9 @@ For training dictionaries
 # import imp
 import os
 import numpy as np
-from requests import patch
 from patches_proc import random_sample_patch, patch_pruning
 from spams import trainDL
 import pickle
-from tqdm import tqdm
 from config import TrainConfig
 
 
@@ -39,8 +37,10 @@ with open(os.path.join(params.dictionary_path, params.hr_dict), 'wb') as f:
 
 with open(os.path.join(params.dictionary_path, params.lr_dict), 'wb') as f:
     pickle.dump(Dl, f, pickle.HIGHEST_PROTOCOL)
+
+print('Finish training dictionaries')
+
+
 if __name__ == "__main__": 
-    # test = np.asfortranarray(np.ones((2, 2))) 
-    # print(test)
     pass 
 
