@@ -23,3 +23,6 @@ dict/
 result/ 
 │   ├── # the output for inference here
 ```
+
+> The dataset can be download [here](https://drive.google.com/drive/folders/15PHLMjOuhZdffTkHqqyzWr4UNbDx8axf?usp=sharing)
+
