@@ -17,7 +17,7 @@ def gauss2D(shape,sigma):
     -------
     return: 2D gaussian mask with shape=shape
     """
-    m,n = [(ss-1.)/2. for ss in shape]
+    m,n = [(ss-1.)/2. for ss in (shape, shape)]
     print(m, n)
     ### y = [[-m], [-m+1], .. .[m-1], [m]]
     ### x = [[-n, -n+1, ..., n-1, n]]
