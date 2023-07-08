@@ -83,26 +83,32 @@ result/
 ## 3. Some results
   
   We test ourselves with an 1020 × 690 image. To upscale the image by a factor of 2, we use a pairs of trained dictionaries with size of 1024 and patch size of 3. The trained dictionary pairs are trained using T91 dataset, containing 91 images of flowers and plants. 
-  <p align="center">
-  <img src="data/test_flower.png" width="1000">
 
-  Figure. The original 2040 x 1380 flower image.
-  </p>
-  - It takes about ~ 40 minutes to output a 2040 x 1380 high-resolution image. 
-  - The below image shows a small region of our super-resolution image (on the left) and the original high resolution image (on the right).
+<p align="center">
+<img src="data/test_flower.png" width="1000">
+
+<p align="center" width="700">Figure. The original 2040 x 1380 flower image.
+</p>
+</p>
+
+
+- It takes about ~ 40 minutes to output a 2040 x 1380 high-resolution image. 
+
+- The below image shows a small region of our super-resolution image (on the left) and the original high resolution image (on the right).
    
 
+<p align="center">
+<img src="result/result_flower.png" width="1000">
 
-
-  <p align="center">
-  <img src="result/result_flower.png" width="1000">
-
-  Figure. The comparison in a small region of super-resolution image (on the left) and the high resolution image (on the right).
-  </p>
+<p align="center" width="700">Figure. The comparison in a small region of super-resolution image (on the left) and the high resolution image (on the right).
+</p>
+</p>
 
 We also provide a comparison with the low-resolution image. To do that, the low-resolution image is zoomed in to the same size with the super-resolution image. 
-  <p align="center">
-  <img src="result/result-comparew-lowres.png" width="1000">
 
-  Figure. The comparison in a region of the low-resolution image (zoomed, on the left) and the super-resolution image (on the right).
-  </p>
+<p align="center">
+<img src="result/result-comparew-lowres.png" width="1000">
+
+<p align="center" width="700">Figure. The comparison in a region of the low-resolution image (zoomed, on the left) and the super-resolution image (on the right).
+</p>
+</p>
