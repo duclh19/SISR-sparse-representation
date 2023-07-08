@@ -1,8 +1,5 @@
 """
-Implementation of some functions processing image patches
-    - 
-    - 
-    -
+Implementation of some functions processing image patches.
     
 """
 import os
@@ -15,6 +12,7 @@ from skimage.color import rgb2gray
 from scipy.signal import convolve2d
 
 def sample_patches(img, patch_size, patch_num, upscale):
+    print(img.shape)
     if img.shape[2] == 3:
         hIm = rgb2gray(img)
     else:
@@ -24,10 +22,11 @@ def sample_patches(img, patch_size, patch_num, upscale):
     lIm = rescale(hIm, 1 / upscale)
     lIm = resize(lIm, hIm.shape)
     nrow, ncol = hIm.shape
+    print('rnow, ncol', nrow, ncol)
 
     x = np.random.permutation(range(nrow - 2 * patch_size)) + patch_size
     y = np.random.permutation(range(ncol - 2 * patch_size)) + patch_size
-
+    print(x.shape, y.shape)
     X, Y = np.meshgrid(x, y)
     xrow = np.ravel(X, order='F')
     ycol = np.ravel(Y, order='F')
@@ -54,14 +53,17 @@ def sample_patches(img, patch_size, patch_num, upscale):
     lImG21 = convolve2d(lIm, hf2, 'same')
     lImG22 = convolve2d(lIm, vf2, 'same')
 
-    for i in (range(patch_num)):
+    for i in tqdm(range(patch_num)):
         row = xrow[i]
         col = ycol[i]
-
+        # print(hIm[row : row + patch_size, col : col + patch_size].shape)
         Hpatch = np.ravel(hIm[row : row + patch_size, col : col + patch_size], order='F')
         
         Lpatch1 = np.ravel(lImG11[row : row + patch_size, col : col + patch_size], order='F')
+        
         Lpatch1 = np.reshape(Lpatch1, (Lpatch1.shape[0], 1))
+        # print(Lpatch1.shape)
+        # return
         Lpatch2 = np.ravel(lImG12[row : row + patch_size, col : col + patch_size], order='F')
         Lpatch2 = np.reshape(Lpatch2, (Lpatch2.shape[0], 1))
         Lpatch3 = np.ravel(lImG21[row : row + patch_size, col : col + patch_size], order='F')
@@ -192,23 +194,5 @@ def backprojection(sr:np.ndarray, lr:np.ndarray, iters:int, nu:float, c:float):
         sr = sr + nu*(diff_blur + c*(sr_0-sr))
     return sr
 
-# def backprojection(img_hr, img_lr, maxIter):
-#     p = gauss2D((5, 5), 1)
-#     p = np.multiply(p, p)
-#     p = np.divide(p, np.sum(p))
-
-#     for i in range(maxIter):
-#         img_lr_ds = resize(img_hr, img_lr.shape, anti_aliasing=1)
-#         img_diff = img_lr - img_lr_ds
-
-#         img_diff = resize(img_diff, img_hr.shape)
-#         img_hr += convolve2d(img_diff, p, 'same')
-#     return img_hr
 if __name__ == "__main__": 
-    # a = np.random.rand(10, 1)
-    # print(np.percentile(a, 70))
-    # print(a > np.percentile(a, 50))
-    img_path = 'data/T91/t1.png'
-    img = io.imread(img_path)
-    Xh, Xl = sample_patches(img, 3, 100000, 2)
-    print(Xh.shape, Xl.shape)
+    pass

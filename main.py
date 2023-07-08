@@ -16,7 +16,10 @@ from patches_proc import backprojection
 
 
 # PARAMETERS SET UP
-params = EvalConfig()
+params = EvalConfig(hr_img_path='data/test_flower.png',
+                    lr_img_path='data/lr_test_flower.png', 
+                    img_name='flower',
+                    )
 
 
 with open(os.path.join(params.dictionary_path, params.hr_dict), 'rb') as f:
@@ -30,15 +33,21 @@ print('The dictionary we use:')
 print(f'\tHR dictionary: {params.hr_dict}')
 print(f'\tLR dictionary: {params.lr_dict}')
 
-
-img_lr_file = os.listdir(params.lr_eval_path)
+lr_img_path = params.lr_img_path
+hr_img_path = params.hr_img_path
+if params.img_name: 
+    img_name = params.img_name
+else: 
+    img_name = os.path.basename(params.image_path)[:-3]
 
 # for i in range(len(img_lr_file[1])): 
 for i in range(1): 
-    img_name = img_lr_file[i]
-    img_lr = io.imread(os.path.join(params.lr_eval_path, img_lr_file[i]))
-    img_hr = io.imread(os.path.join(params.hr_eval_path, img_lr_file[i]))
-
+    # img_name = img_lr_file[i]
+    # img_lr = io.imread(os.path.join(params.lr_eval_path, img_lr_file[i]))
+    # img_hr = io.imread(os.path.join(params.hr_eval_path, img_lr_file[i]))
+    img_lr = io.imread(lr_img_path)
+    img_hr = io.imread(hr_img_path)
+    # img_name = 'head.png'
     if params.color_space == 'ycbcr':
         img_hr_y = rgb2ycbcr(img_hr)[:,:,0]
         
@@ -65,7 +74,8 @@ for i in range(1):
         img_sr = np.stack((img_sr_y, img_sr_cb, img_sr_cr), axis=2)
         img_sr = ycbcr2rgb(img_sr)
 
-        
+    img_sr = img_sr.clip(0, 1) * 255
+    img_sr = img_sr.astype(np.uint8)
     img_bc = resize(img_lr, img_hr_y.shape, 3).clip(0,1)*255
     img_bc = img_bc.astype(np.uint8)
     img_bc_y = rgb2ycbcr(img_bc)[:, :, 0]
@@ -85,21 +95,25 @@ for i in range(1):
     mse_sr_hr = mean_squared_error(img_hr_y,img_sr_y)
     
 
-    ### NOW, img_bc, img_hr, img_sr should be saved in one figure. 
-    fig, ax = plt.subplots(1, 3, sharey=False)
-    # plt.subplot(1, 2, 1, fig)
-    ax[0].imshow(img_bc)
-    ax[0].set_title('bicubic')
-    ax[1].imshow(img_hr)
-    ax[1].set_title('original high resolution')
+   ### NOW, img_bc, img_hr, img_sr should be saved in one figure. 
+    # fig, ax = plt.subplots(1, 3, sharey=False)
+    # # plt.subplot(1, 2, 1, fig)
+    # ax[0].imshow(img_bc)
+    # ax[0].set_title('bicubic')
+    # ax[1].imshow(img_hr)
+    # ax[1].set_title('original high resolution')
 
-    ax[2].imshow(img_sr)
-    ax[2].set_title('super-resolution from low-res')
-    plt.savefig(f'{img_name}_result.png')
+    # ax[2].imshow(img_sr)
+    # ax[2].set_title('super-resolution from low-res')
+    # plt.savefig(f'{img_name}_result.png')
     print(img_name)
     print(f'psnr -> bc: {psnr_bc_hr}, sr: {psnr_sr_hr}')
     print(f'ssim -> bc: {ssim_bc_hr}, sr: {ssim_sr_hr}')
     print(f'mse -> bc: {mse_bc_hr}, sr: {mse_sr_hr}')
 
+    # cv2.imwrite(f'sr_{img_name}', img_sr)
+    outputname = img_name + "_x" + str(params.upscale) + '.png'
+    io.imsave(f'result/{outputname}', img_sr,)
+    print(f'Your image is save to: result/{outputname}.')
 
-
+ 

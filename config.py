@@ -25,13 +25,11 @@ class TrainConfig(object):
                 + '_PS' + str(patch_size) + '.pkl'
 
 class EvalConfig(object): 
-    hr_eval_path    = 'data/val_hr'
-    lr_eval_path    = 'data/val_lr'
     dictionary_path = 'dicts/'
 
     overlap = 1
     lmbda   = 0.1
-    upscale = 3
+    upscale = 2
     color_space = 'ycbcr'
     max_iter = 100
     nu = 1
@@ -47,6 +45,13 @@ class EvalConfig(object):
                 + '_US' + str(upscale) \
                 + '_L' + str(lmbda) \
                 + '_PS' + str(patch_size) + '.pkl'
+    # hr_img_path = 'data/test_flower.png'
+    # lr_img_path = 'data/lr_test_flower.png'
+    # img_name    = 'flower'
+    def __init__(self, hr_img_path, lr_img_path, img_name=None) -> None:
+        self.hr_img_path = hr_img_path
+        self.lr_img_path = lr_img_path
+        self.img_name    = img_name
 
 class TestConfig(): 
     
