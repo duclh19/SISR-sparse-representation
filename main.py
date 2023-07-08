@@ -37,7 +37,7 @@ img_lr_file = os.listdir(params.lr_eval_path)
 for i in range(1): 
     img_name = img_lr_file[i]
     img_lr = io.imread(os.path.join(params.lr_eval_path, img_lr_file[i]))
-    img_hr = io.imread(os.path.join(params.lr_eval_path, img_lr_file[i]))
+    img_hr = io.imread(os.path.join(params.hr_eval_path, img_lr_file[i]))
 
     if params.color_space == 'ycbcr':
         img_hr_y = rgb2ycbcr(img_hr)[:,:,0]
@@ -74,16 +74,15 @@ for i in range(1):
     img_hr_y = img_hr_y.astype(np.uint8)
     img_bc_y = img_bc_y.astype(np.uint8)
     img_sr_y = img_sr_y.astype(np.uint8)
+
     # for bicubic interpolation
     psnr_bc_hr = peak_signal_noise_ratio(img_hr_y,img_bc_y)
     ssim_bc_hr = structural_similarity(img_hr_y,img_bc_y)
     mse_bc_hr = mean_squared_error(img_hr_y,img_bc_y)
-    # nqm_bc_hr = noise_quality_measure(img_hr_y,img_bc_y)
     # for sparse representation SR
     psnr_sr_hr = peak_signal_noise_ratio(img_hr_y,img_sr_y)
     ssim_sr_hr = structural_similarity(img_hr_y,img_sr_y)
     mse_sr_hr = mean_squared_error(img_hr_y,img_sr_y)
-    # nqm_sr_hr = noise_quality_measure(img_hr_y,img_sr_y)
     
 
     ### NOW, img_bc, img_hr, img_sr should be saved in one figure. 

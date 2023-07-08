@@ -6,7 +6,7 @@ class TrainConfig(object):
     # lr_eval_path    = 'data/val_lr/'
     dictionary_path = 'dicts/'
     
-    dict_size   = 2048
+    dict_size   = 1024
     lmbda       = 0.1 
     patch_size  = 3
     num_samples = 100000
@@ -14,12 +14,12 @@ class TrainConfig(object):
     prune_perc  = 10 # per 100
     max_iter    = 100
 
-    hr_dict     = 'Dhr_' + str(dict_size) \
+    hr_dict     = 'Dh_' + str(dict_size) \
                 + '_US' + str(upscale) \
                 + '_L' + str(lmbda) \
                 + '_PS' + str(patch_size) + '.pkl'
     
-    lr_dict     = 'Dlr_' + str(dict_size) \
+    lr_dict     = 'Dl_' + str(dict_size) \
                 + '_US' + str(upscale) \
                 + '_L' + str(lmbda) \
                 + '_PS' + str(patch_size) + '.pkl'
@@ -31,19 +31,19 @@ class EvalConfig(object):
 
     overlap = 1
     lmbda   = 0.1
-    upscale = 2
+    upscale = 3
     color_space = 'ycbcr'
     max_iter = 100
     nu = 1
     beta = 0
-    dict_size = 2048
+    dict_size = 1024
     patch_size = 3
-    hr_dict     = 'Dhr_' + str(dict_size) \
+    hr_dict     = 'Dh_' + str(dict_size) \
                 + '_US' + str(upscale) \
                 + '_L' + str(lmbda) \
                 + '_PS' + str(patch_size) + '.pkl'
     
-    lr_dict     = 'Dlr_' + str(dict_size) \
+    lr_dict     = 'Dl_' + str(dict_size) \
                 + '_US' + str(upscale) \
                 + '_L' + str(lmbda) \
                 + '_PS' + str(patch_size) + '.pkl'
@@ -71,12 +71,12 @@ class TestConfig():
         self._get_dict()
 
     def _get_dict(self): 
-        self.hr_dict    = 'dicts/Dhr_' + str(self.dict_size) \
+        self.hr_dict    = 'dicts/Dh_' + str(self.dict_size) \
                         + '_US' + str(self.upscale) \
                         + '_L' + str(self.lmbda) \
                         + '_PS' + str(self.patch_size) + '.pkl'
             
-        self.lr_dict    = 'dicts/Dlr_' + str(self.dict_size) \
+        self.lr_dict    = 'dicts/Dl_' + str(self.dict_size) \
                         + '_US' + str(self.upscale) \
                         + '_L' + str(self.lmbda) \
                         + '_PS' + str(self.patch_size) + '.pkl'
